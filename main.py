@@ -25,7 +25,7 @@ async def update_positions(request: Request):
 
         update(data)
 
-        return JSONResponse(status_code=204, content={})
+        return 204
 
     except Exception as ex:
         return JSONResponse(status_code=500, content={'error': str(ex)})

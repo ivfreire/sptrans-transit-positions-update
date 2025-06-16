@@ -28,6 +28,7 @@ async def update_positions(request: Request):
         return 204
 
     except Exception as ex:
-        return JSONResponse(status_code=500, content={'error': str(ex)})
+        print(f"Error processing request: {ex}")
+        return 204
 
 # =========================================================================== #

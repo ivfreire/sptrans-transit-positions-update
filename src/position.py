@@ -1,4 +1,6 @@
 
+import concurrent.futures
+
 import numpy as np
 import pandas as pd
 from google.cloud import firestore
@@ -10,7 +12,7 @@ def update(data: dict) -> None:
 
     db = firestore.Client(database='sptransit')
 
-    for bus in buses_df.itertuples():
+    def update_bus(bus):
         doc_ref = db \
             .collection('trips') \
             .document(bus.trip_id) \
@@ -24,5 +26,8 @@ def update(data: dict) -> None:
         }
 
         doc_ref.set(update_data)
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        list(executor.map(update_bus, buses_df.itertuples()))
 
 # =========================================================================== #
